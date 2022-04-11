@@ -1,10 +1,10 @@
-/* 
+/*
      Author : Adrian C. Manatad
        Date : February 25, 2022
      Reason : for commission
 */
-#include<stdio.h>
-#include<conio.h>
+#include <stdio.h>
+#include <stdlib.h> /*for system()*/
 
 int main()
 {
@@ -247,6 +247,7 @@ do {
        }
    }
 
+      printf("Value: %d",taken[4][4]);
       printf("\n   Counter \\ = %d",counterLX);
       printf("\n   Counter / = %d",counterRX);
       for(i=0;i<5;i++) printf("\n Counter HL%d = %d",i,counterHL[i]);
