@@ -55,7 +55,7 @@ int main()
                  result = (float) num1 / (float) num2;
              } else if (choice == 5) {
                  cout << "\nYOU SELECT NUMBER " << choice << " MODULUS\n";
-                 result = (int) num1 - (int) num2;
+                 result = (int) num1 - (int) num2; // convert float num into num integer
              }     
    
              for(i=1; i < 34; i++) cout << "*";//simplify the code save lines
