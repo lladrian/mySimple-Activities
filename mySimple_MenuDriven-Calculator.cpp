@@ -58,7 +58,7 @@ int main()
                  result = (int) num1 - (int) num2; // convert float num into num integer
              }     
    
-             for(i=1; i < 34; i++) cout << "*";//simplify the code save lines
+             for(i=1; i < 34; i++) cout << "*";//simplify the code and to save lines
                        
                 cout << "\nTHE ANSWER IS : " << result << endl << endl;
      } else { // if not in range display invalid choice
