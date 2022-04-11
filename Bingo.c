@@ -264,7 +264,7 @@ do {
      } else {
         printf("\n\nTry again!\n");
      }
-     printf("SELECT OPTION? (N\Y): ");
+     printf("SELECT OPTION? (N/Y): ");
      scanf("%s",&opt);
 
 } while(opt=='y' || opt=='Y');
