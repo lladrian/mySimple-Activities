@@ -1,15 +1,9 @@
-/* 
-     Author : Adrian C. Manatad
-       Date : April 11 , 2022
-     Reason : for commission
-*/
 #include<stdio.h>
+#include<conio.h>
 
 int main()
 {
   int combination[5], i, j, k;
-  int counterLX=0, counterRX=0;
-  int counterBV=0, counterIV=0, counterNV=0, counterGV=0, counterOV=0;
 
   int counterHL[5];
   int takenB[5][1];
@@ -17,6 +11,23 @@ int main()
   int takenN[5][1];
   int takenG[5][1];
   int takenO[5][1];
+  char opt;
+
+   int arr[5][5] = {{1,17,37,51,67},
+                   {2,18,36,50,69},
+                   {3,19,35,49,68},
+                   {12,16,32,47,75},
+                   {10,21,38,48,74}
+                  };
+
+
+
+do {
+
+    int counterLX=0, counterRX=0;
+    int counterBV=0, counterIV=0, counterNV=0, counterGV=0, counterOV=0;
+
+    system("cls");
 
   for(i=0;i<5;i++) {
         counterHL[i]=0;
@@ -29,16 +40,7 @@ int main()
     }
   }
 
-
-
-  int arr[5][5] = {{1,17,37,51,67},
-                   {2,18,36,50,69},
-                   {3,19,35,49,68},
-                   {12,16,32,47,75},
-                   {10,21,38,48,74}
-                  };
-
-   /*
+/*
   printf("Please insert number first.\n");
 
  // begin to stored numbers for bingo cards
@@ -50,6 +52,7 @@ int main()
   }
   //inserting value ends
 */
+
 
    for(i=0; i<=4; i++) { //control the number of rows
         if(i==0) {
@@ -93,152 +96,152 @@ int main()
    printf("\n");
 
    //Rules of the game
-   for(i=0; i<=4; i++) {
-        for(j=0; j<=4; j++) {
+   for(i=0; i<5; i++) {
+        for(j=0; j<5; j++) {
 
             if(i==0) {
-                  if(arr[0][0]==combination[j] && takenB[j][i] != 1) {
+                  if(arr[0][0]==combination[j] && takenB[0][0] != 1) {
                         counterLX++;
                         counterBV++;
                         counterHL[i]++;
-                        takenB[j][i] = 1;
+                        takenB[0][0] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[0][1]==combination[j] && takenI[j][i] != 1) {
+                  } else if(arr[0][1]==combination[j] && takenI[0][1] != 1) {
                         counterIV++;
-                         counterHL[i]++;
-                        takenI[j][i] = 1;
+                        counterHL[i]++;
+                        takenB[0][1] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[0][2]==combination[j] && takenN[j][i] != 1) {
+                  } else if(arr[0][2]==combination[j] && takenN[0][2] != 1) {
                         counterNV++;
-                         counterHL[i]++;
-                        takenN[j][i] = 1;
+                        counterHL[i]++;
+                        takenB[0][2] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[0][3]==combination[j] && takenG[j][i] != 1) {
+                  } else if(arr[0][3]==combination[j] && takenG[0][3] != 1) {
                         counterGV++;
-                         counterHL[i]++;
-                        takenG[j][i] = 1;
+                        counterHL[i]++;
+                        takenB[0][3] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[0][4]==combination[j] && takenO[j][i] != 1) {
+                  } else if(arr[0][4]==combination[j] && takenO[0][4] != 1) {
                         counterRX++;
                         counterOV++;
                         counterHL[i]++;
-                        takenO[j][i] = 1;
+                        takenO[0][4] = 1;
                         printf("Checked: %d\n", combination[j]);
                   }
             } else if(i==1){
-                   if(arr[1][0]==combination[j] && takenB[j][i] != 1) {
+                   if(arr[1][0]==combination[j] && takenB[1][0] != 1) {
                         counterBV++;
                          counterHL[i]++;
-                        takenB[j][i] = 1;
+                        takenB[1][0] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[1][1]==combination[j] && takenI[j][i] != 1) {
+                  } else if(arr[1][1]==combination[j] && takenI[1][1] != 1) {
                         counterLX++;
                         counterIV++;
                         counterHL[i]++;
-                        takenI[j][i] = 1;
+                        takenI[1][1] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[1][2]==combination[j] && takenN[j][i] != 1) {
+                  } else if(arr[1][2]==combination[j] && takenN[1][2] != 1) {
                         counterNV++;
                        counterHL[i]++;
-                        takenN[j][i] = 1;
+                        takenN[1][2] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[1][3]==combination[j] && takenG[j][i] != 1) {
+                  } else if(arr[1][3]==combination[j] && takenG[1][3] != 1) {
                         counterRX++;
                         counterGV++;
                          counterHL[i]++;
-                        takenG[j][i] = 1;
+                        takenG[1][3] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[1][4]==combination[j] && takenO[j][i] != 1) {
+                  } else if(arr[1][4]==combination[j] && takenO[1][4] != 1) {
                         counterOV++;
                          counterHL[i]++;
-                        takenO[j][i] = 1;
+                       takenO[1][4] = 1;
                         printf("Checked: %d\n", combination[j]);
                   }
             }  else if(i==2){
-                   if(arr[2][0]==combination[j] && takenB[j][i] != 1) {
+                   if(arr[2][0]==combination[j] && takenB[2][0] != 1) {
                         counterBV++;
                          counterHL[i]++;
-                        takenB[j][i] = 1;
+                       takenB[2][0] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[2][1]==combination[j] && takenI[j][i] != 1) {
+                  } else if(arr[2][1]==combination[j] && takenI[2][1] != 1) {
                         counterIV++;
                         counterHL[i]++;
-                        takenI[j][i] = 1;
+                          takenI[2][1] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[2][2]==combination[j] && takenN[j][i] != 1) {
+                  } else if(arr[2][2]==combination[j] && takenN[2][2] != 1) {
                         counterLX++;
                         counterRX++;
                         counterNV++;
-                         counterHL[i]++;
-                        takenN[j][i] = 1;
+                        counterHL[i]++;
+                         takenN[2][2] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[2][3]==combination[j] && takenG[j][i] != 1) {
+                  } else if(arr[2][3]==combination[j] && takenG[2][3] != 1) {
                         counterGV++;
                          counterHL[i]++;
-                        takenG[j][i] = 1;
+                         takenG[2][3] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[2][4]==combination[j] && takenO[j][i] != 1) {
+                  } else if(arr[2][4]==combination[j] && takenO[2][4] != 1) {
                         counterOV++;
                         counterHL[i]++;
-                        takenO[j][i] = 1;
+                        takenO[2][4] = 1;
                         printf("Checked: %d\n", combination[j]);
                   }
             } else if(i==3){
-                   if(arr[3][0]==combination[j] && takenB[j][i] != 1) {
+                   if(arr[3][0]==combination[j] && takenB[3][0] != 1) {
                         counterBV++;
-                         counterHL[i]++;
-                        takenB[j][i] = 1;
+                        counterHL[i]++;
+                        takenB[3][0] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[3][1]==combination[j] && takenI[j][i] != 1) {
+                  } else if(arr[3][1]==combination[j] && takenI[3][1] != 1) {
                         counterRX++;
                         counterIV++;
                         counterHL[i]++;
-                        takenI[j][i] = 1;
+                        takenI[3][1] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[3][2]==combination[j] && takenN[j][i] != 1) {
+                  } else if(arr[3][2]==combination[j] && takenN[3][2] != 1) {
                         counterNV++;
-                         counterHL[i]++;
-                        takenN[j][i] = 1;
+                        counterHL[i]++;
+                        takenN[3][2] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[3][3]==combination[j] && takenG[j][i] != 1) {
+                  } else if(arr[3][3]==combination[j] && takenG[3][3] != 1) {
                         counterLX++;
                         counterGV++;
                         counterHL[i]++;
-                        takenG[j][i] = 1;
+                        takenG[3][3] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[3][4]==combination[j] && takenO[j][i] != 1) {
+                  } else if(arr[3][4]==combination[j] && takenO[3][4] != 1) {
                         counterOV++;
                         counterHL[i]++;
-                        takenO[j][i] = 1;
+                        takenO[3][4] = 1;
                         printf("Checked: %d\n", combination[j]);
                   }
             } else if(i==4){
-                  if(arr[4][0]==combination[j] && takenB[j][i] != 1) {
+                  if(arr[4][0]==combination[j] && takenB[4][0] != 1) {
                         counterRX++;
                         counterBV++;
                         counterHL[i]++;
-                        takenB[j][i] = 1;
+                        takenB[4][0] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[4][1]==combination[j] && takenI[j][i] != 1) {
+                  } else if(arr[4][1]==combination[j] && takenI[4][1] != 1) {
                         counterIV++;
                         counterHL[i]++;
-                        takenI[j][i] = 1;
+                        takenI[4][1] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[4][2]==combination[j] && takenN[j][i] != 1) {
+                  } else if(arr[4][2]==combination[j] && takenN[4][2] != 1) {
                         counterNV++;
                         counterHL[i]++;
-                        takenN[j][i] = 1;
+                        takenN[4][2] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[4][3]==combination[j] && takenG[j][i] != 1) {
+                  } else if(arr[4][3]==combination[j] && takenG[4][3] != 1) {
                         counterGV++;
                         counterHL[i]++;
-                        takenG[j][i] = 1;
+                        takenG[4][3] = 1;
                         printf("Checked: %d\n", combination[j]);
-                  } else if(arr[4][4]==combination[j] && takenO[j][i] != 1) {
+                  } else if(arr[4][4]==combination[j] && takenO[4][4] != 1) {
                         counterLX++;
                         counterOV++;
                         counterHL[i]++;
-                        takenO[j][i] = 1;
+                        takenO[4][4] = 1;
                         printf("Checked: %d\n", combination[j]);
                   }
             }
@@ -248,18 +251,23 @@ int main()
 
       printf("\n   Counter \\ = %d",counterLX);
       printf("\n   Counter / = %d",counterRX);
-      for(i=0;i<5;i++) printf("\n  Counter%d _ = %d",i,counterHL[i]);
+      for(i=0;i<5;i++) printf("\n Counter HL%d = %d",i,counterHL[i]);
       printf("\n Counter BVL = %d",counterBV);
       printf("\n Counter IVL = %d",counterIV);
       printf("\n Counter NVL = %d",counterNV);
       printf("\n Counter GVL = %d",counterGV);
       printf("\n Counter OVL = %d",counterOV);
 
-     if(counterRX == 5 || counterLX == 5 || counterBV==5 || counterIV==5 || counterNV==5 || counterGV==5 || counterOV==5 || counterHL[0] == 5 || counterHL[1] == 5 || counterHL[2] == 5 || counterHL[3] == 5 || counterHL[4] == 5 ){ //rules for winning
+    //rules for winning
+     if(counterRX == 5 || counterLX == 5 || counterBV==5 || counterIV==5 || counterNV==5 || counterGV==5 || counterOV==5 || counterHL[0] == 5 || counterHL[1] == 5 || counterHL[2] == 5 || counterHL[3] == 5 || counterHL[4] == 5 ){
         printf("\n\nYou won! Bingo\n");
      } else {
         printf("\n\nTry again!\n");
      }
+     printf("SELECT OPTION? (N\Y): ");
+     scanf("%s",&opt);
+
+} while(opt=='y' || opt=='Y');
 
    return 0;
 }
