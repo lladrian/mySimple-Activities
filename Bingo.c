@@ -1,3 +1,8 @@
+/* 
+     Author : Adrian C. Manatad
+       Date : February 25, 2022
+     Reason : for commission
+*/
 #include<stdio.h>
 #include<conio.h>
 
