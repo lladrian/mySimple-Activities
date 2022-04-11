@@ -1,3 +1,8 @@
+/* 
+     Author : Adrian C. Manatad
+       Date : April 11 , 2022
+     Reason : for commission
+*/
 #include<stdio.h>
 
 int main()
