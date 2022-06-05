@@ -1,3 +1,10 @@
+/*
+    Author: Adrian C. Manatad
+    Reason: FOR COMMISION
+    DATE: JUNE 05, 2022
+    CLIENT NAME: JHONAMAE PATILUNA
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
