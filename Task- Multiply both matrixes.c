@@ -2,7 +2,7 @@
     Author: Adrian C. Manatad
     Reason: FOR COMMISION
     DATE: APRIL 19, 2022
-    CUSTOMER NAME: DUKE GARCIA
+    CLIENT NAME: DUKE GARCIA
 
     [1 2]     [5 6]   [1*5 + 2*0 1*6 + 2*7]   [05 20]
            X        =                       =
