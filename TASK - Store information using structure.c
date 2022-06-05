@@ -2,7 +2,7 @@
     Author: Adrian C. Manatad
     Reason: FOR COMMISION
     DATE: APRIL 19, 2022
-    CUSTOMER NAME: DUKE GARCIA
+    CLIENT NAME: DUKE GARCIA
 
 */
 // Store information of n products with descriptions (product name, manufacturing date, expiration date) using structures.
