@@ -11,7 +11,7 @@
     AUTHOR: Adrian C. Manatad
     DATE: July 15, 2022
     Reason: FOR COMMISSION
-    CLIENT: Alma Española
+    CLIENT: Alma EspaÃ±ola
 */
 
 using namespace std;
