@@ -26,22 +26,19 @@ int total_RECORD();
 int writeInfo_DATA();
 
 //Initializing
-    int step=0, ssn=0, zone=0, record=-1, num1=1,num2=0, found=0, flag=0;
-
-    bool back=true, loop=true;
-
     int i, id;
+    int step=0, ssn=0, zone=0, record=-1, num1=1,num2=0, found=0, flag=0;
 
     char choice;
     char name[100], price[100], select[100];
     char u_name[100], course[100], section[100], subject[100];
 
+    bool back=true, loop=true;
+
     string text, look, line;
     fstream in_file, out_file, user_info, temp;
 
 int main(){
-
-         system ("CLS");
 
     //Menu
     while(back=true){
@@ -70,8 +67,8 @@ int main(){
         cout<<"* [C] Clear Screen          *"<<endl;
         cout<<"* [X] EXIT                  *"<<endl;
         cout<<"*****************************"<<endl;
+        
         cout << "\nRECORD:" << record << endl;
-
 
                   cout<<"\nSELECT: ";
                   cin.getline(select,100);
@@ -232,7 +229,6 @@ void insert_DATA() {//100%
                     while(getline(in_file,text))cout << text << endl;
                 in_file.close();
                 found=0;
-
 }
 
 void view_DATA() {//100%
@@ -253,7 +249,6 @@ void view_DATA() {//100%
                                 step++;
 
                                    if(look==text && step==2) {
-
                                         stringstream str2(text);
                                           str1 >> num1;
                                           str2 >> num2;
