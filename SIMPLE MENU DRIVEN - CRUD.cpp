@@ -7,7 +7,7 @@
 //#include <stdlib.h>
 //#include <cstring>
 
-/*
+/*a
     AUTHOR: Adrian C. Manatad
     DATE: July 15, 2022
     Reason: FOR COMMISSION
