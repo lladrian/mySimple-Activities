@@ -4,7 +4,12 @@
 #include <bits/stdc++.h>
 
 using namespace std;
+/*. AUTHOR: Adrian C. Manatad
+      DATE: July 16, 2022
+    REASON: FOR COMMISSION
+    CLIENT: Alma Española
 
+*/
 struct Student{
 	int id;
 	string name;
