@@ -3,7 +3,7 @@
      Author : Adrian C. Manatad
        Date : April 10, 2022
      Reason : for fun
-*/
+*/a
 int main() {
 
     int len, sum, counter=0, total=0,key, i , j, mode[25], max=0, temp;
