@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
 /*
     Author: Adrian C. Manatad
     Reason: FOR COMMISION
@@ -70,7 +69,7 @@ int main()
 
     if (!(ans=='y' || ans == 'Y' || ans=='n' || ans == 'N')) printf("\nError! Please try again!...\n\n\n\n");
     if (ans == 'n' || ans == 'N')  printf("\nGoodbye and Thank you.\n");
-
+        
 } while(ans == 'Y' || ans == 'y');
 
    return 0;
