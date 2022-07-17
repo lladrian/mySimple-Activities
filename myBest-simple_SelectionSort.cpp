@@ -1,7 +1,7 @@
 /* 
      Author : Adrian C. Manatad
        Date : March 26, 2022
- Commission : school activity
+     REASON : school activity
 */
 
 #include <stdio.h>
