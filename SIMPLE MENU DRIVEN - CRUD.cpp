@@ -2,13 +2,13 @@
 #include<string>
 #include<fstream>
 #include <bits/stdc++.h>
+#include <windows.h>
 
 /*. AUTHOR: Adrian C. Manatad
       DATE: July 16, 2022
     REASON: FOR COMMISSION
     CLIENT: Alma Española
 */
-
 using namespace std;
 
     struct Student{
@@ -19,12 +19,17 @@ using namespace std;
     int i, ssn, step=0, zone=0, record=-1, num1=1,num2=0, found=0, counts=0;
     char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100];
     bool back=true, loop=true, flag=false, edit=false;
-    string text, line,select;
+
+    string text, line;
+
+    char check[100];
+
     ifstream read;
     ofstream write;
     fstream append;
 
-    void deleteAll_DATA(), insert_DATA(), viewAll_DATA(), view_DATA(), delete_DATA(), edit_DATA(), total_RECORD();
+    void deleteAll_DATA(), insert_DATA(), viewAll_DATA(), view_DATA(), delete_DATA(), edit_DATA();
+    int total_RECORD();
     Student input_DATA(int ssn, const int edit);
     bool writeInfo_DATA();
 
@@ -56,11 +61,15 @@ int main() {
         cout << "\nRECORD:" << record << endl;
 
             cout<<"\nSELECT: ";
-            getline(cin, select);
+            cin.getline(check, 100);
 
-            if(select.size() > 1) cerr <<"\nCaught an ERROR!.\n"<<endl;
-            else if(string::npos != select.find_first_of("0123456789")) cerr << "\nERROR! digit(s) found!\n" << endl;
-            else choice = select[0];
+            if(strlen(check) > 1) {
+                found=1;
+                cerr <<"\nCaught an ERROR!.\n"<<endl;
+            } else
+                choice = check[0];
+
+            found=0;//reset
 
             switch (choice){
             //Add Record 100%
@@ -196,11 +205,13 @@ void edit_DATA() {//100%
 
 void insert_DATA() {
     cout << "\nINSERT DATA [Y/N]: ";
-    getline(cin, select);
+            cin.getline(check, 100);
 
-    if(select.size() > 1) cerr <<"\nCaught an ERROR!.\n"<<endl;
-    else if(string::npos != select.find_first_of("0123456789")) cerr << "\nERROR! digit(s) found!\n" << endl;
-    else choice = select[0];
+            if(strlen(check) > 1) {
+                found=1;
+                cerr <<"\nCaught an ERROR!.\n"<<endl;
+            } else
+                choice = check[0];
 
     if(choice=='y' || choice=='Y') {
         record++;
