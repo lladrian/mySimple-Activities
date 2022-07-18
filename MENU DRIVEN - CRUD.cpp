@@ -3,16 +3,16 @@
 #include <fstream>
 #include <bits/stdc++.h>
 #include <windows.h>
-    /*. 
-    	AUTHOR: Adrian C. Manatad
+    /*. AUTHOR: Adrian C. Manatad
           DATE: July 16, 2022
-        REASON: FOR COMMISSION      
-	CLIENT: Alma Española
+        REASON: FOR COMMISSION
+        CLIENT: Alma Española
     */
     using namespace std;
     struct Student{
         int id;
-        string name,price;
+        string name;
+        string price;
     };
     int i, ssn, step=0, zone=0, record=-1, num1=1,num2=0, found=0, counts=0;
     char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100], check[100];
@@ -121,6 +121,7 @@ int main() {
 }
 Student input_DATA(int ssn, const int edit) {
     Student s1;
+    s1.id=ssn;
     cout<<"\nInsert Name: ";
     getline(cin, s1.name);
     cout<<"Input Price: ";
@@ -128,23 +129,24 @@ Student input_DATA(int ssn, const int edit) {
     if(s1.name.size() > 11 || s1.price.size() > 12 || s1.id >=10000000) {
         cerr <<"\nCaught an ERROR!.\n"<<endl;
         if(s1.name.size() > 11) cerr << "NAME_SIZE:" << s1.name.size() << endl;
-        if(s1.price.size() > 11) cerr << "PRICE_SIZE:" << s1.price.size() << endl;
-        if(s1.id>=1000000) cerr << "DIGIT_SIZE:" << s1.id << endl;
+        if(s1.price.size() > 12) cerr << "PRICE_DIGITS:" << s1.price.size() << endl;
+        if(s1.id>=1000000) cerr << "ID_EXCEEDS:" << s1.id << endl;
         found=1;
     }
-        s1.id=ssn;
-    append.open("data.txt", fstream::app);
-       if(edit==0 && found==0) append << " " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
-    append.close();
-       if(edit==1) return s1;
+    if(edit==0 && found==0) {
+        append.open("data.txt", fstream::app);
+            append << " " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
+        append.close();
+    }
+    if(edit==1) return s1;
 }
 void edit_DATA() {//100%
     Student s1;
     cout<<"\nEnter user ID to EDIT: ";
     cin.getline(look,100);
+    if(record>0) {
     read.open("data.txt");//read from file //original file
     write.open("temp.txt");;//read from file //original file
-    if(record>0) {
         while(getline(read, line)) {//find
             stringstream X(line);
             while (getline(X, text, ' ') && loop==true) { //column..holder
@@ -166,8 +168,8 @@ void edit_DATA() {//100%
                 step=0;//reset
                 loop=true;//reset
         }
-    }
     read.close();//file is closed
+    }
     write.close();//file is closed
     remove("data.txt");//file is removed
     rename("temp.txt", "data.txt");// transfer success
@@ -187,10 +189,9 @@ void insert_DATA() {
         choice = check[0];
     if(choice=='y' || choice=='Y') {
         record++;
-        if (record>0 && found==0) {
-            input_DATA(record,0);
-            cout << "\nInserted succesfully.\n\n" << endl;
-        } else if(record==-1 || found==1) cout << "\nFAILED to insert.\n\n" << endl;
+        input_DATA(record,0);
+        if (record>0 && found==0) cout << "\nInserted succesfully.\n\n" << endl;
+        if(record==-1 || found==1) cout << "\nFAILED to insert.\n\n" << endl;
     }
     viewAll_DATA();
 }
@@ -235,10 +236,9 @@ void view_DATA() {//100%
                 stringstream str2(text);
                 str1 >> num1;
                 str2 >> num2;
-                found = 1;//temporary
+                found = 1;
                 cout << "\n|  ID  |    Name    |   Price   |" << endl;
                 if(num1==num2) {
-                    found = 2;//temporary
                     cout << line << endl;
                 }
             }
@@ -253,38 +253,30 @@ int total_RECORD() { //100%
     read.open("data.txt");
         while(getline(read,line)) record++;
     read.close();//required to put
-    write.open("data.txt");
-        if(record==-1) {
+    if(record==-1) {
+      write.open("data.txt");
             record++;
             write << "|  ID  |    Name    |   Price   |" << endl;
-        }
-    write.close();
+      write.close();
+    }
     return record;
 }
 void viewAll_DATA() {//100%
-    record=-1;//reset
     cout<<endl;
     read.open("data.txt");
-    while(getline(read,line)) {
-        record++;
-        cout << line << endl;
-    }
+    while(getline(read,line)) cout << line << endl;
     read.close();//required to put
     zone=1;
 }
 void deleteAll_DATA() { //100%
     record=-1;//reset
-     write.open("data.txt");
-     read.open("data.txt");
-        cout << "\n\nDELETED SUCCESFULLY.\n" << endl;
-        while(getline(read,line)) {
-          record++;
-          if(record==0) write << "|  ID  |    Name    |   Price   |" << endl;
-          else write << '\0' << endl;
-        }
-     write.close();
-     read.close();
-    record=-1;//reset
+     cout << "\n\nDELETED SUCCESFULLY.\n" << endl;
+    if(record==-1) {
+        record++;
+        write.open("data.txt");
+            write << "|  ID  |    Name    |   Price   |" << endl;
+        write.close();
+    }
     zone=1;
 }
 bool writeInfo_DATA() { // 100%
