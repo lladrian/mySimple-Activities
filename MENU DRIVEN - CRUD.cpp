@@ -7,7 +7,7 @@
           DATE: July 16, 2022
         REASON: FOR COMMISSION
         CLIENT: Alma Española
-    */
+    */ //95% done
     using namespace std;
     struct Student{
         int id;
