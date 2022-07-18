@@ -3,10 +3,11 @@
 #include <fstream>
 #include <bits/stdc++.h>
 #include <windows.h>
-    /*. AUTHOR: Adrian C. Manatad
+    /*. 
+    	AUTHOR: Adrian C. Manatad
           DATE: July 16, 2022
-        REASON: FOR COMMISSION
-        CLIENT: Alma Española
+        REASON: FOR COMMISSION      
+	CLIENT: Alma Española
     */
     using namespace std;
     struct Student{
