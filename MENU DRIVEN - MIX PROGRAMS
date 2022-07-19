@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+void grading_System();
+
+int main() {
+    int num;
+    bool back = true;
+
+    while(back==true){
+
+        cout<<"\n\n  MIX PROGRAMMING USING C++       \n" << endl;
+        cout<<"*****************************"<<endl;
+        cout<<"*    SIMPLE MENU DRIVEN     *" << endl;
+        cout<<"*****************************"<<endl;
+        cout<<"* [2] Grading System        *"<<endl;
+        cout<<"* [1] Clear Screen          *"<<endl;
+        cout<<"* [0] EXIT                 *"<<endl;
+        cout<<"*****************************"<<endl;
+
+        cout << "SELECT: ";
+        cin >> num;
+
+            switch (num){
+            //Add Record 100%
+            case 2:
+                   grading_System();
+            break;
+
+            //CLEAR SCREEN FUNCTION 100%
+            case 1:
+                    system("CLS");
+            break;
+             //EXIT FUNCTION 100%
+            case 0:
+                     cout << "\nEXIT SUCCESFULLY.\n";
+                     exit(1);
+            break;
+            //if out of range
+            default:
+                    cout << "\nTRY AGAIN! Out of range.\n\n";
+            break;
+        }//swith end
+    }//while loop ends
+
+   return 0;
+}
+
+void grading_System() {
+   int len, i;
+   float sum = 0.0, avg;
+   float arr[] = {90, 90, 90, 90, 99};//array
+
+   len = sizeof(arr) / sizeof(arr[0]);
+
+   for(i = 0; i < len; i++) sum += arr[i]; //only worked with one statement
+
+   avg = sum / len;
+
+   for(i=1; i<=len; i++) {
+       if(i==1) cout << "1st Grading: " << arr[i] << " " << endl;  //only worked with one statement
+       if(i==2) cout << "2nd Grading: " << arr[i] << " " << endl;  //only worked with one statement
+       if(i==3) cout << "2nd Grading: " << arr[i] << " " << endl;  //only worked with one statement
+       if(i==4) cout << "2nd Grading: " << arr[i] << " " << endl;  //only worked with one statement
+   }
+
+   cout<<"\nGeneral Average: "<< avg << endl;
+}
+
