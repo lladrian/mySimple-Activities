@@ -7,26 +7,29 @@
           DATE: July 16, 2022
         REASON: FOR COMMISSION
         CLIENT: Alma Española
-    */ //95% done
+    */ //100% done
     using namespace std;
+
     struct Student{
         int id;
         string name;
         string price;
     };
+
     int i, ssn, step=0, zone=0, record=-1, num1=1,num2=0, found=0, counts=0;
     char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100], check[100];
     bool back=true, loop=true, flag=false, edit=false;
-
-    void deleteAll_DATA(), insert_DATA(), viewAll_DATA(), view_DATA(), delete_DATA(), edit_DATA();
-    int total_RECORD();
-    Student input_DATA(int ssn, const int edit);
-    bool writeInfo_DATA();
-
     string text, line;
+
     ifstream read;
     ofstream write;
     fstream append;
+
+    void deleteAll_DATA(), insert_DATA(), viewAll_DATA(), view_DATA(), delete_DATA(), edit_DATA();
+    bool isAlpha(string const &str), isNumeric(string const &str), writeInfo_DATA();
+    int total_RECORD();
+    Student input_DATA(int ssn, const int edit);
+
 int main() {
     while(back==true) {
         record=total_RECORD(); //reset
@@ -119,6 +122,30 @@ int main() {
     }//while loop ends
 	return 0;
 }
+bool isAlpha(string const &str) {
+    auto ch = str.begin();
+
+    while(loop==true) {
+            if(ch != str.end() && !isdigit(*ch))
+                ch++;
+            else
+                loop = false;
+    }
+    loop = true;
+    return (!str.empty() && ch==str.end()) ? true : false;
+}
+bool isNumeric(string const &str) {
+    auto num = str.begin();
+
+    while(loop==true) {
+            if(num != str.end() && isdigit(*num))
+                num++;
+            else
+                loop = false;
+    }
+    loop = true;
+    return (!str.empty() && num==str.end()) ? true : false;
+}
 Student input_DATA(int ssn, const int edit) {
     Student s1;
     s1.id=ssn;
@@ -126,19 +153,27 @@ Student input_DATA(int ssn, const int edit) {
     getline(cin, s1.name);
     cout<<"Input Price: ";
     getline(cin, s1.price);
-    if(s1.name.size() > 11 || s1.price.size() > 12 || s1.id >=10000000) {
-        cerr <<"\nCaught an ERROR!.\n"<<endl;
-        if(s1.name.size() > 11) cerr << "NAME_SIZE:" << s1.name.size() << endl;
-        if(s1.price.size() > 12) cerr << "PRICE_DIGITS:" << s1.price.size() << endl;
-        if(s1.id>=1000000) cerr << "ID_EXCEEDS:" << s1.id << endl;
+    if (isAlpha(s1.name) == false) { //if false or return 0
+        cerr <<"\nDigit(s) found.\n"<<endl;
         found=1;
     }
-    if(edit==0 && found==0) {
-        append.open("data.txt", fstream::app);
-            append << " " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
-        append.close();
+    if (isNumeric(s1.price) == false) { //if false or return 0
+        cerr <<"\nCharacter(s) found.\n"<<endl;
+        found=1;
     }
-    if(edit==1) return s1;
+        if(s1.name.size() > 11 || s1.price.size() > 12 || s1.id >=10000000) {
+            cerr <<"\nCaught an ERROR!.\n"<<endl;
+            if(s1.name.size() > 11) cerr << "NAME_SIZE:" << s1.name.size() << endl;
+            if(s1.price.size() > 12) cerr << "PRICE_DIGITS:" << s1.price.size() << endl;
+            if(s1.id>=1000000) cerr << "ID_EXCEEDS:" << s1.id << endl;
+            found=1;
+        }
+        if(edit==0 && found==0) {
+            append.open("data.txt", fstream::app);
+                append << " " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
+            append.close();
+        }
+  if (edit==1 && found==0) return  s1;
 }
 void edit_DATA() {//100%
     Student s1;
@@ -181,7 +216,6 @@ void edit_DATA() {//100%
 void insert_DATA() {
     cout << "\nINSERT DATA [Y/N]: ";
     cin.getline(check, 100);
-
     if(strlen(check) > 1) {
         found=1;
         cerr <<"\nCaught an ERROR!.\n"<<endl;
