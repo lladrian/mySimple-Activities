@@ -4,11 +4,11 @@
 #include <bits/stdc++.h>
 #include <windows.h>
 
-/* 
-   Author : Adrian C. Manatad 
-     Date : April 10, 2022 
-   Reason : for fun 
-*/
+	/* 
+	  Author : Adrian C. Manatad 
+	    Date : April 10, 2022 
+	  Reason : for fun 
+	*/
 
     using namespace std;
 
@@ -168,7 +168,7 @@ void deleteAll_DATA() { //100%
     total_LINES=-1;//reset
     write.open("data.txt");
     read.open("data.txt");
-            cout << "\n\nDELETED SUCCESFULLY.\n" << endl;
+            cout << "\nDELETED SUCCESFULLY." << endl;
             while(getline(read,line)) {
                 total_LINES++;
                 if(total_LINES==0)
@@ -267,7 +267,8 @@ void delete_RECORD() {//100%
     read.close();//required to put
     remove("data.txt");//file is removed
     rename("temp.txt", "data.txt");// transfer success
-    if(counts==0) cout << "\nEMPTY! Please try again!\n" << endl;
+    if(counts==0) cout << "\nEMPTY! Please try again!" << endl;
+    else cout << "\nSuccessfully DELETED." << endl;
     viewAll_DATA();//display all
 }
 
@@ -345,6 +346,7 @@ void input_DATA(int edit){ //100%
 }
 
 void insert_DATA(int DATA) {//100%
+    counts=0;//reset
     cout << "\nINSERT DATA [Y/N]: ";
     cin.getline(check, 100);
     if(strlen(check) > 1) {
@@ -362,13 +364,13 @@ void insert_DATA(int DATA) {//100%
                         if(step < 10) append << " " << left << setw(3) << data;
                         if(step == 10) append  << " " << left << setw(3) << data << endl;
                      append.close();
+                     counts=1;
                 }
            }
 
            if(DATA==2) {
                 record=0;//reset
                 step=0;//reset
-                counts=0;
                 total_LINES=-1;//reset
                 input_DATA(3);
                 read.open("data.txt");
