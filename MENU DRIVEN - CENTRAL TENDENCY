@@ -1,0 +1,416 @@
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <bits/stdc++.h>
+#include <windows.h>
+
+/* 
+   Author : Adrian C. Manatad 
+     Date : April 10, 2022 
+   Reason : for fun 
+*/
+
+    using namespace std;
+
+    int i, j, ssn, step=0, zone=0, record=0, num1=1,num2=0, location, temp, found=0, counts=0, number=0, total=0, total_LINES=-1;
+
+    char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100], check[100];
+    bool back=true, loop=true, flag=false, edit=false;
+    string text, line, data;
+
+    int len, arr[200];
+
+    ifstream read;
+    ofstream write;
+    fstream append;
+
+    void sort_RECORD();
+    void deleteAll_DATA(), insert_DATA(int DATA), viewAll_DATA(), delete_RECORD(), edit_RECORD();
+    bool isAlpha(string const &str), writeInfo_DATA();
+    int total_RECORD(int data);
+    void input_DATA(int edit);
+
+int main() {
+    while(back==true) {
+           record = total_RECORD(0);
+         if (flag==true) {  //Personal Information
+                cout << "\n\n\n";
+                read.open("user_info.txt"); //read from file
+                    while(getline(read,line)) cout << line << endl;
+                read.close();
+        }
+
+cout<<endl<<endl<<"     FILE HANDLING USING C++      " <<endl<<endl;
+            cout<<"**********************************"<<endl;
+            cout<<"* MENU DRIVEN - CENTRAL TENDENCY *"<<endl;
+            cout<<"**********************************"<<endl;
+            cout<<"* [P] Personal Information       *"<<endl;
+            cout<<"* [A] Add Record                 *"<<endl;
+            cout<<"* [I] Insert DATA                *"<<endl;
+            cout<<"* [E] Edit Record                *"<<endl;
+            cout<<"* [D] Delete Record              *"<<endl;
+            cout<<"* [S] Sorting Record             *"<<endl;
+            cout<<"* [L] View All Record            *"<<endl;
+            cout<<"* [C] Clear Screen               *"<<endl;
+            cout<<"* [X] EXIT                       *"<<endl;
+            cout<<"**********************************"<<endl;
+
+            cout << "\nRECORD:" << record << endl;
+
+            cout<<"\nSELECT: ";
+            cin.getline(check, 100);
+
+                if(strlen(check) > 1) {
+                    found=1;
+                    cerr <<"\nCaught an ERROR!.\n"<<endl;
+                } else
+                    choice = check[0];
+
+            switch (choice){
+                //Add Record
+                case 'a':
+                case 'A':
+                        insert_DATA(1);
+                break;
+                //EDIT RECORD
+                case 'e':
+                case 'E':
+                        edit_RECORD();
+                break;
+                //VIEW ALL RECORD
+                case 'l':
+                case 'L':
+                        cout << endl;
+                        viewAll_DATA();
+                break;
+                //Insert DATA
+                case 'i':
+                case 'I':
+                        insert_DATA(2);
+                break;
+                //Sorting ALL RECORD
+                case 's':
+                case 'S':
+                        sort_RECORD();
+                break;
+                 //DELETE RECORD
+                case 'd':
+                case 'D':
+                        delete_RECORD();
+                break;
+                //DELETE ALL RECORD
+                case 'z':
+                case 'Z':
+                        deleteAll_DATA();
+                break;
+                //CLEAR SCREEN FUNCTION 100%
+                case 'c':
+                case 'C':
+                        system("CLS");
+                        zone=1;
+                break;
+                //EXIT FUNCTION 100%
+                case 'x':
+                case 'X':
+                         cout << "\nEXIT SUCCESFULLY.\n";
+                         exit(1);
+                break;
+                //if out of range
+                default:
+                        cout << "\nTRY AGAIN! Out of range.\n\n";
+                break;
+        }//swith end
+        zone=0;//reset
+        found=0;//reset
+    }//while loop ends
+	return 0;
+}
+
+void edit_RECORD() {//100%
+    record=0;//reset
+    step=0;//reset
+    counts=0;//reset
+    total_LINES=-1;//reset
+    input_DATA(1);
+    read.open("data.txt");
+    write.open("temp.txt");
+       while (getline(read, line)) {//row
+            stringstream X(line);
+            total_LINES++;
+            if(total_LINES>0) {
+                while(getline(X, text, ' ')) { //column..holder
+                    if(text!="\0") {
+                        step++;
+                        record++;
+                        if(step>10) step=1;
+                        if(location==record) {
+                             counts=1;
+                             if(step < 10) write << " " << left << setw(3) << data;
+                             if(step == 10) write << " " << left << setw(3) << data << endl;
+                        }
+                        if(!(location==record)) {
+                             if(step < 10) write << " " << left << setw(3) << text;
+                             if(step == 10) write << " " << left << setw(3) << text << endl;
+                        }
+                    }
+               }
+           } else write << "*           CENTRAL TENDENCY           *" << endl;
+       }
+    write.close();//required to put
+    read.close();//required to put
+    remove("data.txt");//file is removed
+    rename("temp.txt", "data.txt");// transfer success
+    if(counts==0) cout << "\nEMPTY! Please try again!\n" << endl;
+    viewAll_DATA();//display all
+}
+
+void deleteAll_DATA() { //100%
+    total_LINES=-1;//reset
+    write.open("data.txt");
+    read.open("data.txt");
+            cout << "\n\nDELETED SUCCESFULLY.\n" << endl;
+            while(getline(read,line)) {
+                total_LINES++;
+                if(total_LINES==0)
+                    write << "*           CENTRAL TENDENCY           *" << endl;
+                else
+                    write << '\0' << endl;
+            }
+    write.close();
+    read.close();
+    zone=1;
+}
+
+void viewAll_DATA() {//100%
+        total_LINES=-1;//reset
+    read.open("data.txt");
+    cout <<"\n"<<endl;
+        while(getline(read,line)) {
+                total_LINES++;
+            if(total_LINES==0) {
+                cout << "****************************************"<< endl;
+                cout << line << endl;
+                cout << "****************************************"<< endl;
+            } else {
+                cout << line <<endl;
+            }
+        }
+    read.close();//required to put
+}
+
+void sort_RECORD() {//100%
+    step=0;//reset
+    int sum=0;//reset
+
+        for(i=1; i<record; i++) {
+            temp=arr[i];
+             j=i-1;
+            while (j>=0 && temp <= arr[j]) {
+                arr[j+1] = arr[j];
+                j=j-1;
+            }
+            arr[j+1]=temp;
+        }
+        write.open("temp.txt");
+        for(i=0; i<record; i++) {
+            step++;
+            if(step>10) step=1;
+            if(i==0){
+                write << "*           CENTRAL TENDENCY           *" << endl;
+                if(step < 10) write << " " << left << setw(3) << arr[i];
+            } else {
+                if(step < 10) write << " " << left << setw(3) << arr[i];
+                if(step == 10) write << " " << left << setw(3) << arr[i] << endl;
+            }
+            sum+=arr[i];
+        }
+        write.close();
+
+    remove("data.txt");//file is removed
+    rename("temp.txt", "data.txt");// transfer success
+    viewAll_DATA();//display all
+}
+
+
+void delete_RECORD() {//100%
+    record=0;//reset
+    step=0;//reset
+    counts=0;//reset
+    total_LINES=-1;//reset
+    input_DATA(2);
+    read.open("data.txt");
+    write.open("temp.txt");
+       while (getline(read, line)) {//row
+            stringstream X(line);
+            total_LINES++;
+            if(total_LINES>0) {
+                while(getline(X, text, ' ')) { //column..holder
+                    if(text!="\0") {
+                        step++;
+                        record++;
+                        if(step>10) step=1;
+                        if(!(location==record)) {
+                            if(step < 10) write << " " << left << setw(3) << text;
+                            if(step == 10)write << " " << left << setw(3) << text << endl;
+                        }
+                        if(location==record)  {
+                            step+=-1;
+                            counts = 1;
+                        }
+                    }
+                }
+            } else {
+                    write << "*           CENTRAL TENDENCY           *" << endl;
+            }
+       }
+    write.close();//required to put
+    read.close();//required to put
+    remove("data.txt");//file is removed
+    rename("temp.txt", "data.txt");// transfer success
+    if(counts==0) cout << "\nEMPTY! Please try again!\n" << endl;
+    viewAll_DATA();//display all
+}
+
+int total_RECORD(int data) {//100%
+    int num;
+    data=0;//reset
+    step=0;//reset
+    total_LINES=-1;//reset
+
+    read.open("data.txt");
+       while (getline(read, line)) {//find
+            stringstream X(line);
+            total_LINES++;
+            if(total_LINES>0) {
+                while(getline(X, text, ' ')) { //column..holder
+                    if(text!="\0") {
+                        stringstream str(text);
+                        str >> num;
+                        arr[data]=num;
+                        data++;
+                        step++;
+                        if(step>10) step=1;
+                    }
+                }
+            }
+       }
+    read.close();//required to put
+
+    if(total_LINES==-1) {
+      write.open("data.txt");
+        total_LINES++;
+        write << "*           CENTRAL TENDENCY           *" << endl;
+      write.close();
+    }
+    return data;
+}
+
+void input_DATA(int edit){ //100%
+    if (edit==0) {//add record
+        cout<<"\nInput Number: ";
+        getline(cin, data);
+    }
+    if (edit==1) {//edit record
+        cout << "\nLOCATION: ";
+        getline(cin, text);
+        cout<<"\nNEW Number: ";
+        getline(cin, data);
+
+        stringstream str1(text);
+        str1 >> location;
+    }
+    if (edit==2) {//delete record
+        cout << "\nLOCATION: ";
+        getline(cin, text);
+
+        stringstream str1(text);
+        str1 >> location;
+    }
+    if (edit==3) {//insert record
+        cout << "\nLOCATION: ";
+        getline(cin, text);
+
+        cout<<"\nInput Number: ";
+        getline(cin, data);
+
+        stringstream str1(text);
+        str1 >> location;
+    }
+
+    if(data.size() > 3) {
+        cerr <<"\nCaught an ERROR!.\n"<<endl;
+        cerr << "PRICE_DIGITS:" << data.size() << endl;
+        found=1;
+    }
+}
+
+void insert_DATA(int DATA) {//100%
+    cout << "\nINSERT DATA [Y/N]: ";
+    cin.getline(check, 100);
+    if(strlen(check) > 1) {
+        found=1;
+        cerr <<"\nCaught an ERROR!.\n"<<endl;
+    } else
+        choice = check[0];
+
+    if(choice=='y' || choice=='Y') {
+
+           if(DATA==1) {
+                input_DATA(0);
+                if (total_LINES>=0 && found==0) {
+                     append.open("data.txt", fstream::app);
+                        if(step < 10) append << " " << left << setw(3) << data;
+                        if(step == 10) append  << " " << left << setw(3) << data << endl;
+                     append.close();
+                }
+           }
+
+           if(DATA==2) {
+                record=0;//reset
+                step=0;//reset
+                counts=0;
+                total_LINES=-1;//reset
+                input_DATA(3);
+                read.open("data.txt");
+                write.open("temp.txt");
+                   while(getline(read, line)) {//row
+                        stringstream X(line);
+                        total_LINES++;
+                        if(total_LINES>0) {
+                            while(getline(X, text, ' ')) { //column..holder
+                                if(text!="\0") {
+                                    step++;
+                                    record++;
+                                    if(step>10) step=1;
+                                    if(location==record) {
+                                         if(step < 10) write << " " << left << setw(3) << data;
+                                         if(step == 10) write << " " << left << setw(3) << data << endl;
+
+                                         step++;
+                                         if(step>10) step=1;
+
+                                         if(step < 10) write << " " << left << setw(3) << text;
+                                         if(step == 10) write << " " << left << setw(3) << text << endl;
+                                         counts=1;
+                                    }
+                                    if(!(location==record)) {
+                                        if(step < 10) write << " " << left << setw(3) << text;
+                                         if(step == 10) write << " " << left << setw(3) << text << endl;
+                                    }
+                                }
+                            }
+                        } else write << "*           CENTRAL TENDENCY           *" << endl;
+                   }
+                write.close();//required to put
+                read.close();//required to put
+                remove("data.txt");//file is removed
+                rename("temp.txt", "data.txt");// transfer success
+                if(counts==0) cout << "\nEMPTY! Please try again!" << endl;
+           }
+    }
+
+        if(total_LINES==-1 || found==1 || counts==0) cout << "\nFAILED to insert." << endl;
+        else cout << "\nInserted succesfully." << endl;
+
+   viewAll_DATA();
+}
