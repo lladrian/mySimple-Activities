@@ -4,35 +4,53 @@
 #include <bits/stdc++.h>
 #include <windows.h>
 
-	/* 
-	  Author : Adrian C. Manatad 
-	    Date : July 23, 2022 
-	  Reason : for fun 
+	/*
+	  Author : Adrian C. Manatad
+	    Date : July 23, 2022
+	  Reason : for fun
 	*/
 
     using namespace std;
 
-    int i, j, ssn, step=0, zone=0, record=0, num1=1,num2=0, location, temp, found=0, counts=0, number=0, total=0, total_LINES=-1;
+    char choice,check[100];
 
-    char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100], check[100];
-    bool back=true, loop=true, flag=false, edit=false;
+    struct user_INFO {
+            char u_name[100], course[100], section[100], subject[100];
+    }s1;
+
+    bool back=true, loop=true, flag=false;
+
     string text, line, data;
 
-    int len, arr[200];
+    float mean, median;
+    int counter=0, key, mode[100], len, sum, arr[100], i, j, zone=0, record=0, location, temp, found=0, num;
 
     ifstream read;
     ofstream write;
     fstream append;
 
-    void sort_RECORD();
-    void deleteAll_DATA(), insert_DATA(int DATA), viewAll_DATA(), delete_RECORD(), edit_RECORD();
-    bool isAlpha(string const &str), writeInfo_DATA();
-    int total_RECORD(int data);
+    void find_mode(int len, int MAX);
+    void sort_RECORD(int step, int sum, int len);
+    void viewAll_DATA(int total_LINES);
+    void edit_RECORD(int record, int step, int counts, int total_LINES);
+    void insert_DATA(int DATA, int counts, int record, int step, int total_LINES);
+    void deleteAll_DATA(int total_LINES);
+    void delete_RECORD(int record, int step, int counts, int total_LINES);
     void input_DATA(int edit);
+
+    bool isAlpha(string const &str), writeInfo_DATA();
+
+    int total_RECORD(int data, int step, int total_LINES);
 
 int main() {
     while(back==true) {
-           record = total_RECORD(0);
+           std::fill(mode, mode+100, 0);//reset
+           std::fill(arr, arr+100, 0);//reset
+       // for(int data: mode) cout << "MODE:" << data << endl;
+       // for(int data: arr) cout << "ARR:" << data << endl;
+
+           record = total_RECORD(0,0,-1);
+
          if (flag==true) {  //Personal Information
                 cout << "\n\n\n";
                 read.open("user_info.txt"); //read from file
@@ -67,41 +85,48 @@ cout<<endl<<endl<<"     FILE HANDLING USING C++      " <<endl<<endl;
                     choice = check[0];
 
             switch (choice){
+                //Student Information 100%
+                case 'p':
+                case 'P':
+                        system("CLS");
+                        flag=writeInfo_DATA();
+                        system("CLS");
+                break;
                 //Add Record
                 case 'a':
                 case 'A':
-                        insert_DATA(1);
+                        insert_DATA(1,0,0,0,-1);
                 break;
                 //EDIT RECORD
                 case 'e':
                 case 'E':
-                        edit_RECORD();
+                        edit_RECORD(0,0,0,-1);
                 break;
                 //VIEW ALL RECORD
                 case 'l':
                 case 'L':
                         cout << endl;
-                        viewAll_DATA();
+                        viewAll_DATA(-1);
                 break;
                 //Insert DATA
                 case 'i':
                 case 'I':
-                        insert_DATA(2);
+                        insert_DATA(2,0,0,0,-1);
                 break;
                 //Sorting ALL RECORD
                 case 's':
                 case 'S':
-                        sort_RECORD();
+                        sort_RECORD(0,0,record);
                 break;
                  //DELETE RECORD
                 case 'd':
                 case 'D':
-                        delete_RECORD();
+                        delete_RECORD(0,0,0,-1);
                 break;
                 //DELETE ALL RECORD
                 case 'z':
                 case 'Z':
-                        deleteAll_DATA();
+                        deleteAll_DATA(-1);
                 break;
                 //CLEAR SCREEN FUNCTION 100%
                 case 'c':
@@ -120,17 +145,35 @@ cout<<endl<<endl<<"     FILE HANDLING USING C++      " <<endl<<endl;
                         cout << "\nTRY AGAIN! Out of range.\n\n";
                 break;
         }//swith end
+        found=0;//reset 100%
+        counter=0;//reset 100%
+        temp=0;//reset 100%
         zone=0;//reset
-        found=0;//reset
     }//while loop ends
 	return 0;
 }
 
-void edit_RECORD() {//100%
-    record=0;//reset
-    step=0;//reset
-    counts=0;//reset
-    total_LINES=-1;//reset
+bool writeInfo_DATA() { // 100%
+    cout << "\n\nName: ";
+    cin.getline(s1.u_name,100);
+    cout << "Course: ";
+    cin.getline(s1.course,100);
+    cout << "Section: ";
+    cin.getline(s1.section,100);
+    cout << "Subject: ";
+    cin.getline(s1.subject,100);
+     write.open("user_info.txt");
+        write << "Name: " << s1.u_name << endl;
+        write << "Course: " << s1.course << endl;
+        write << "Section: " << s1.section << endl;
+        write << "Subject: " << s1.subject << endl;
+     write.close();//required
+    zone=1;
+    return true;
+}
+
+
+void edit_RECORD(int record, int step, int counts, int total_LINES) {//100%
     input_DATA(1);
     read.open("data.txt");
     write.open("temp.txt");
@@ -161,11 +204,10 @@ void edit_RECORD() {//100%
     remove("data.txt");//file is removed
     rename("temp.txt", "data.txt");// transfer success
     if(counts==0) cout << "\nEMPTY! Please try again!\n" << endl;
-    viewAll_DATA();//display all
+    viewAll_DATA(-1);//display all
 }
 
-void deleteAll_DATA() { //100%
-    total_LINES=-1;//reset
+void deleteAll_DATA(int total_LINES) { //100%
     write.open("data.txt");
     read.open("data.txt");
             cout << "\nDELETED SUCCESFULLY." << endl;
@@ -181,8 +223,7 @@ void deleteAll_DATA() { //100%
     zone=1;
 }
 
-void viewAll_DATA() {//100%
-        total_LINES=-1;//reset
+void viewAll_DATA(int total_LINES) {
     read.open("data.txt");
     cout <<"\n"<<endl;
         while(getline(read,line)) {
@@ -198,11 +239,9 @@ void viewAll_DATA() {//100%
     read.close();//required to put
 }
 
-void sort_RECORD() {//100%
-    step=0;//reset
-    int sum=0;//reset
 
-        for(i=1; i<record; i++) {
+void sort_RECORD(int step, int sum, int len) {//100%
+        for(i=1; i<len; i++) {
             temp=arr[i];
              j=i-1;
             while (j>=0 && temp <= arr[j]) {
@@ -211,32 +250,77 @@ void sort_RECORD() {//100%
             }
             arr[j+1]=temp;
         }
+
         write.open("temp.txt");
-        for(i=0; i<record; i++) {
-            step++;
-            if(step>10) step=1;
-            if(i==0){
-                write << "*           CENTRAL TENDENCY           *" << endl;
-                if(step < 10) write << " " << left << setw(3) << arr[i];
-            } else {
-                if(step < 10) write << " " << left << setw(3) << arr[i];
-                if(step == 10) write << " " << left << setw(3) << arr[i] << endl;
+            for(i=0; i<len; i++) {
+                step++;
+                if(step>10) step=1;
+                if(i==0){
+                    write << "*           CENTRAL TENDENCY           *" << endl;
+                    if(step < 10) write << " " << left << setw(3) << arr[i];
+                } else {
+                    if(step < 10) write << " " << left << setw(3) << arr[i];
+                    if(step == 10) write << " " << left << setw(3) << arr[i] << endl;
+                }
+                sum+=arr[i];
             }
-            sum+=arr[i];
-        }
         write.close();
+
+        mean = (float) sum / len; // to find mean
+        printf("\n   Mean = %.2f = %d / %d",mean,sum,len); //display mean
+
+    //to find median
+      if (len%2==1) {   //odd || if only one
+           median=arr[(len-1)/2];
+           printf("\n Median = %.0f\n",median);
+      } else if(len%2==0) { //even  || if more than 1
+           median=( (arr[(len-1)/2] + arr[(len-1)/2+1] ) / 2.0);
+           printf("\n Median = %.2f = %d + %d / 2\n" , median, arr[(len-1)/2], arr[(len-1)/2+1]);
+      }
+
+    find_mode(len,0);   //to find mode
 
     remove("data.txt");//file is removed
     rename("temp.txt", "data.txt");// transfer success
-    viewAll_DATA();//display all
+    viewAll_DATA(-1);//display all
 }
 
+void find_mode(int len, int MAX) {
+    for(i=0; i<len; i++) {
+        key=arr[i];//holds the value
+        temp=1;//quantity || reset
+        found=0;//reset
 
-void delete_RECORD() {//100%
-    record=0;//reset
-    step=0;//reset
-    counts=0;//reset
-    total_LINES=-1;//reset
+         for(j=0; j<len; j++) if(key==arr[j] && i!=j) temp++;
+
+         if(temp>=MAX) {
+                if(temp>MAX) {//if quantity is greater than then reset the counter value
+                    counter=0;//reset
+                    mode[counter]=key;
+                }
+
+                if(temp==MAX) { //if same quantity saves here but unequal
+                    for(int x: mode) {
+                        if(x==key && x!=0) {
+                            found=1;
+                            break;
+                        }
+                    }
+                    if(found==0) {
+                         ++counter;//increment by 1
+                         mode[counter]=key;//stores the value here
+                    }
+                }
+            MAX=temp;
+        }
+    }
+
+         //to display mode
+      if(MAX!=1) for(i=0; i<=counter; i++) printf("   Mode = %d [%d]\n" ,mode[i],MAX);
+      if(MAX==1) printf("   Mode = none\n\n");
+}
+
+void delete_RECORD(int record, int step, int counts, int total_LINES) {//100%
     input_DATA(2);
     read.open("data.txt");
     write.open("temp.txt");
@@ -259,9 +343,8 @@ void delete_RECORD() {//100%
                         }
                     }
                 }
-            } else {
-                    write << "*           CENTRAL TENDENCY           *" << endl;
-            }
+            } else
+                write << "*           CENTRAL TENDENCY           *" << endl;
        }
     write.close();//required to put
     read.close();//required to put
@@ -269,15 +352,10 @@ void delete_RECORD() {//100%
     rename("temp.txt", "data.txt");// transfer success
     if(counts==0) cout << "\nEMPTY! Please try again!" << endl;
     else cout << "\nSuccessfully DELETED." << endl;
-    viewAll_DATA();//display all
+    viewAll_DATA(-1);//display all
 }
 
-int total_RECORD(int data) {//100%
-    int num;
-    data=0;//reset
-    step=0;//reset
-    total_LINES=-1;//reset
-
+int total_RECORD(int data, int step, int total_LINES) {//100%
     read.open("data.txt");
        while (getline(read, line)) {//find
             stringstream X(line);
@@ -345,8 +423,7 @@ void input_DATA(int edit){ //100%
     }
 }
 
-void insert_DATA(int DATA) {//100%
-    counts=0;//reset
+void insert_DATA(int DATA, int counts, int record, int step, int total_LINES) {//100%
     cout << "\nINSERT DATA [Y/N]: ";
     cin.getline(check, 100);
     if(strlen(check) > 1) {
@@ -359,6 +436,9 @@ void insert_DATA(int DATA) {//100%
 
            if(DATA==1) {
                 input_DATA(0);
+                read.open("data.txt");
+                    while(getline(read, line)) total_LINES++;
+                read.close();
                 if (total_LINES>=0 && found==0) {
                      append.open("data.txt", fstream::app);
                         if(step < 10) append << " " << left << setw(3) << data;
@@ -369,9 +449,6 @@ void insert_DATA(int DATA) {//100%
            }
 
            if(DATA==2) {
-                record=0;//reset
-                step=0;//reset
-                total_LINES=-1;//reset
                 input_DATA(3);
                 read.open("data.txt");
                 write.open("temp.txt");
@@ -414,5 +491,5 @@ void insert_DATA(int DATA) {//100%
         if(total_LINES==-1 || found==1 || counts==0) cout << "\nFAILED to insert." << endl;
         else cout << "\nInserted succesfully." << endl;
 
-   viewAll_DATA();
+    viewAll_DATA(-1);//display all
 }
