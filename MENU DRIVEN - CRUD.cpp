@@ -5,6 +5,11 @@
 #include <windows.h>
 
     using namespace std;
+/*. AUTHOR: Adrian C. Manatad
+          DATE: July 16, 2022
+        REASON: FOR COMMISSION
+        CLIENT: Alma Española
+    */ //100% done
 
     struct Student{
         int id;
