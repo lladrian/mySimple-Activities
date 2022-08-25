@@ -181,15 +181,15 @@ Student input_DATA(int ssn, const int edit) {
     cout<<"Permanent Address: ";
     getline(cin, s1.perm_add);
 
-    if (isAlpha(s1.name) == false) { //if false or return 0
+    if (isAlpha(s1.name) == false && isAlpha(s1.gender) == false && isAlpha(s1.status) == false ) { //if false or return 0
         cerr <<"\nDigit(s) found.\n"<<endl;
         found=1;
     }
-    if (isNumeric(s1.age) == false) { //if false or return 0
+    if (isNumeric(s1.age) == false && isNumeric(s1.phone_number) == false) { //if false or return 0
         cerr <<"\nCharacter(s) found.\n"<<endl;
         found=1;
     }
-        if(s1.name.size() > 11 || s1.id >=10000000) {
+        if(s1.name.size() > 15 || s1.id >=10000000 || s1.age.size() > 11 || s1.gender.size() > 12 || s1.status.size() > 10 || s1.phone_number.size() > 15 || s1.email_add.size() > 25 || s1.perm_add.size() > 30 ||) {
             cerr <<"\nCaught an ERROR!.\n"<<endl;
             if(s1.name.size() > 11) cerr << "NAME_SIZE:" << s1.name.size() << endl;
             if(s1.id>=1000000) cerr << "ID_EXCEEDS:" << s1.id << endl;
