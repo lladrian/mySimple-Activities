@@ -3,11 +3,7 @@
 #include <fstream>
 #include <bits/stdc++.h>
 #include <windows.h>
-    /*. AUTHOR: Adrian C. Manatad
-          DATE: July 16, 2022
-        REASON: FOR COMMISSION
-        CLIENT: Alma Española
-    */ //100% done
+
     using namespace std;
 
     struct Student{
@@ -181,11 +177,11 @@ Student input_DATA(int ssn, const int edit) {
     cout<<"Permanent Address: ";
     getline(cin, s1.perm_add);
 
-    if (isAlpha(s1.name) == false && isAlpha(s1.gender) == false && isAlpha(s1.status) == false ) { //if false or return 0
+    if (isAlpha(s1.name) == false || isAlpha(s1.gender) == false || isAlpha(s1.status) == false ) { //if false or return 0
         cerr <<"\nDigit(s) found.\n"<<endl;
         found=1;
     }
-    if (isNumeric(s1.age) == false && isNumeric(s1.phone_number) == false) { //if false or return 0
+    if (isNumeric(s1.age) == false || isNumeric(s1.phone_number) == false) { //if false or return 0
         cerr <<"\nCharacter(s) found.\n"<<endl;
         found=1;
     }
