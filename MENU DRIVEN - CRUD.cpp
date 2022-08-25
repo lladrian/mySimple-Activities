@@ -13,11 +13,21 @@
     struct Student{
         int id;
         string name;
-        string price;
+        string age;
+        string gender;
+        string status;
+        string phone_number;
+        string email_add;
+        string perm_add;
     };
 
+    struct userINFO {
+       char u_name[100], course[100], section[100], subject[100];
+    }user;
+
     int i, ssn, step=0, zone=0, record=-1, num1=1,num2=0, found=0, counts=0;
-    char choice,name[100], price[100],u_name[100], course[100], section[100], subject[100],look[100], check[100];
+    char choice,look[100], check[100];
+
     bool back=true, loop=true, flag=false, edit=false;
     string text, line;
 
@@ -149,28 +159,52 @@ bool isNumeric(string const &str) {
 Student input_DATA(int ssn, const int edit) {
     Student s1;
     s1.id=ssn;
-    cout<<"\nInsert Name: ";
+
+    cout<<"\nStudent Name: ";
     getline(cin, s1.name);
-    cout<<"Input Price: ";
-    getline(cin, s1.price);
+
+    cout<<"Student Age: ";
+    getline(cin, s1.age);
+
+    cout<<"Student Gender: ";
+    getline(cin, s1.gender);
+
+    cout<<"Student Status: ";
+    getline(cin, s1.status);
+
+    cout<<"Contact Number: ";
+    getline(cin, s1.phone_number);
+
+    cout<<"Email Address: ";
+    getline(cin, s1.email_add);
+
+    cout<<"Permanent Address: ";
+    getline(cin, s1.perm_add);
+
     if (isAlpha(s1.name) == false) { //if false or return 0
         cerr <<"\nDigit(s) found.\n"<<endl;
         found=1;
     }
-    if (isNumeric(s1.price) == false) { //if false or return 0
+    if (isNumeric(s1.age) == false) { //if false or return 0
         cerr <<"\nCharacter(s) found.\n"<<endl;
         found=1;
     }
-        if(s1.name.size() > 11 || s1.price.size() > 12 || s1.id >=10000000) {
+        if(s1.name.size() > 11 || s1.id >=10000000) {
             cerr <<"\nCaught an ERROR!.\n"<<endl;
             if(s1.name.size() > 11) cerr << "NAME_SIZE:" << s1.name.size() << endl;
-            if(s1.price.size() > 12) cerr << "PRICE_DIGITS:" << s1.price.size() << endl;
             if(s1.id>=1000000) cerr << "ID_EXCEEDS:" << s1.id << endl;
             found=1;
         }
         if(edit==0 && found==0) {
             append.open("data.txt", fstream::app);
-                append << " " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
+                append << " " << left << setw(5) << s1.id << " "
+                              << left << setw(15)<< s1.name << " "
+                              << left << setw(11)<< s1.age  << " "
+                              << left << setw(12)<< s1.gender << " "
+                              << left << setw(10)<< s1.status << " "
+                              << left << setw(15)<< s1.phone_number << " "
+                              << left << setw(25)<< s1.email_add << " "
+                              << left << setw(30)<< s1.perm_add<<endl;
             append.close();
         }
   if (edit==1 && found==0) return  s1;
@@ -191,8 +225,15 @@ void edit_DATA() {//100%
                     stringstream str1(text);
                     str1 >> ssn;//string to integer
                     s1 = input_DATA(ssn,1);
-                    write <<" " << left << setw(6) << s1.id << " " << left << setw(11)<< s1.name << " " << right << setw(12)<< s1.price <<endl;
-                    if(found==1) cout << "\nFAILED to update.\n" << endl;
+                     write << " " << left << setw(5) << s1.id << " "
+                              << left << setw(15)<< s1.name << " "
+                              << left << setw(11)<< s1.age  << " "
+                              << left << setw(12)<< s1.gender << " "
+                              << left << setw(10)<< s1.status << " "
+                              << left << setw(15)<< s1.phone_number << " "
+                              << left << setw(25)<< s1.email_add << " "
+                              << left << setw(30)<< s1.perm_add<<endl;
+                        if(found==1) cout << "\nFAILED to update.\n" << endl;
                     if(found==0) cout << "\nUpdated succesfully.\n" << endl;
                     edit=true;
                     loop=false;
@@ -271,7 +312,7 @@ void view_DATA() {//100%
                 str1 >> num1;
                 str2 >> num2;
                 found = 1;
-                cout << "\n|  ID  |    Name    |   Price   |" << endl;
+                cout << "\n| ID | Student Name  |    Age    |   Gender   |  Status  |  Phone Number |      Email Address      |       Permanent Address      |" << endl;
                 if(num1==num2) {
                     cout << line << endl;
                 }
@@ -288,9 +329,9 @@ int total_RECORD() { //100%
         while(getline(read,line)) record++;
     read.close();//required to put
     if(record==-1) {
+      record++;
       write.open("data.txt");
-            record++;
-            write << "|  ID  |    Name    |   Price   |" << endl;
+                write << "\n| ID | Student Name  |    Age    |   Gender   |  Status  |  Phone Number |      Email Address      |       Permanent Address      |" << endl;
       write.close();
     }
     return record;
@@ -308,25 +349,25 @@ void deleteAll_DATA() { //100%
     if(record==-1) {
         record++;
         write.open("data.txt");
-            write << "|  ID  |    Name    |   Price   |" << endl;
+                write << "\n| ID | Student Name  |    Age    |   Gender   |  Status  |  Phone Number |      Email Address      |       Permanent Address      |" << endl;
         write.close();
     }
     zone=1;
 }
 bool writeInfo_DATA() { // 100%
     cout << "\n\nName: ";
-    cin.getline(u_name,100);
+    cin.getline(user.u_name,100);
     cout << "Course: ";
-    cin.getline(course,100);
+    cin.getline(user.course,100);
     cout << "Section: ";
-    cin.getline(section,100);
+    cin.getline(user.section,100);
     cout << "Subject: ";
-    cin.getline(subject,100);
+    cin.getline(user.subject,100);
      write.open("user_info.txt");
-        write << "Name: " << u_name << endl;
-        write << "Course: " << course << endl;
-        write << "Section: " << section << endl;
-        write << "Subject: " << subject << endl;
+        write << "Name: " << user.u_name << endl;
+        write << "Course: " << user.course << endl;
+        write << "Section: " << user.section << endl;
+        write << "Subject: " << user.subject << endl;
      write.close();//required
     zone=1;
     return true;
