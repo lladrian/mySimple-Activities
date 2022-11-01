@@ -1,0 +1,210 @@
+#include<stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#define back "true"
+
+void addstudent();
+void studentrecord();
+void searchstudent();
+void delete();
+
+  struct student {
+    char first_name[20];
+    char last_name[20];
+    int roll_no;
+    float q1, q2, q3, q4;
+    float average;
+};
+
+void main()
+{
+
+    char choice[20];
+    char check;
+    while(back=="true") {
+
+    printf("\n\n   FILE HANDLING USING C++       \n\n");
+    printf("*****************************\n");
+    printf("* SIMPLE MENU DRIVEN - CRUD *\n");
+    printf("* [A] Add Record            *\n");
+    printf("* [L] View All Record       *\n");
+    printf("* [V] View Record           *\n");
+    printf("* [D] Delete Record         *\n");
+    printf("* [X] EXIT                  *\n");
+    printf("*****************************\n\n");
+
+    printf("Select: ");
+    gets(choice);
+
+    if(strlen(choice) > 1) {
+        printf("\nCaught an ERROR!.\n\n");
+    } else check = choice[0];
+
+   switch(check){
+    //Add Record 100%
+    case 'a':
+    case 'A':
+         addstudent();
+         break;
+    //View All Records 100%
+    case 'l':
+    case 'L':
+         studentrecord();
+         break;
+    //View Record 100%
+    case 'v':
+    case 'V':
+         searchstudent();
+         break;
+    //Delete Record 100%
+    case 'd':
+    case 'D':
+         delete();
+         break;
+   //EXIT FUNCTION 100%
+   case 'x':
+   case 'X':
+        printf("\nThank you, for used this software.\n\n");
+        exit(0);
+        break;
+    default :
+        printf("\ntEnter a valid number\n\n");
+         break;
+    }
+  }
+    getch();
+}
+
+ void addstudent(){
+     char another;
+     FILE *fp;
+     int n,i;
+     struct student info;
+     info.average = 0;
+
+   do{
+    system("cls");
+       printf("=======Add Students Info=======\n");
+       fp=fopen("information.txt","a"); //use can give any file name. Give the name with extention or without extention.
+          printf("\nEnter Roll-No       : ");
+          scanf("%d",&info.roll_no);
+          printf("Enter First Name     : ");
+          scanf("%s",&info.first_name);
+          printf("Enter Last Name     : ");
+          scanf("%s",&info.last_name);
+          printf("Quiz 1              : ");
+          scanf("%f",&info.q1);
+          info.average+=(float)info.q1;
+          printf("Quiz 2              : ");
+          scanf("%f",&info.q2);
+          info.average+=(float)info.q2;
+          printf("Quiz 3              : ");
+          scanf("%f",&info.q3);
+          info.average+=(float)info.q3;
+          printf("Quiz 4              : ");
+          scanf("%f",&info.q4);
+          info.average+=(float)info.q4;
+          info.average/=4; //get the average
+      if(fp==NULL){
+        fprintf(stderr,"can't open file");
+    }else{
+        printf("\nRecord stored successfuly\n");
+    }
+    fwrite(&info, sizeof(struct student), 1, fp);
+    fclose(fp);
+
+    printf("\nAdd Data?(Y/N) : ");
+    scanf("%s",&another);
+   }while(another=='y'||another=='Y');
+}
+
+ void studentrecord(){
+    FILE *fp;
+    struct student info;
+    fp=fopen("information.txt","r");
+
+     printf("=======STUDENTS RECORD=======\n\n\n");
+
+    if(fp==NULL){
+
+        fprintf(stderr,"can't open file\n");
+        exit(0);
+    }else{
+        printf("RECORDS :\n");
+        printf("___________\n\n");
+    }
+        while(fread(&info,sizeof(struct student),1,fp)){
+            printf("\n Student ID     : %d",info.roll_no);
+            printf("\n Student Name   : %s %s",info.first_name,info.last_name);
+            printf("\n Quiz 1         : %.2f",info.q1);
+            printf("\n Quiz 2         : %.2f",info.q2);
+            printf("\n Quiz 3         : %.2f",info.q3);
+            printf("\n Quiz 4         : %.2f",info.q4);
+            printf("\n Average        : %.2f",info.average);
+            printf("\n________________________________\n");
+        }
+        fclose(fp);
+  }
+
+void searchstudent(){
+    struct student info;
+    FILE *fp;
+    int roll_no,found=0;
+
+    fp=fopen("information.txt","r");
+    printf("=======SEARCH STUDENTS RECORD=======\n\n\n");
+    printf("Enter the roll no : ");
+    scanf("%d",&roll_no);
+    while(fread(&info,sizeof(struct student),1,fp)>0){
+        if(info.roll_no==roll_no){
+            found=1;
+            printf("\n\nStudent Name    : %s %s",info.first_name,info.last_name);
+            printf("\nStudent ID        : %d",info.roll_no);
+            printf("\n Quiz 1         : %.2f",info.q1);
+            printf("\n Quiz 2         : %.2f",info.q2);
+            printf("\nQuiz 3         : %.2f",info.q3);
+            printf("\n Quiz 4         : %.2f",info.q4);
+            printf("\n______________________________________\n");
+         }
+    }
+    if(!found){
+       printf("\nRecord not found\n");
+    }
+    fclose(fp);
+}
+
+
+ void delete(){
+    struct student info;
+    FILE *fp, *fp1;
+    int roll_no,found=0;
+
+    printf("=======DELETE STUDENTS RECORD=======\n\n\n");
+    fp=fopen("information.txt","r");
+    fp1=fopen("temp.txt","w");
+    printf("Enter the roll no : ");
+    scanf("%d",&roll_no);
+    if(fp==NULL){
+         fprintf(stderr,"can't open file\n");
+         exit(0);
+    }
+    while(fread(&info,sizeof(struct student),1,fp)){
+        if(info.roll_no == roll_no){
+            found=1;
+        }else{
+           fwrite(&info,sizeof(struct student),1,fp1);
+        }
+    }
+     fclose(fp);
+     fclose(fp1);
+
+    if(!found){
+          printf("\nRecord not found\n");
+    }
+    if(found){
+        remove("information.txt");
+        rename("temp.txt","information.txt");
+        printf("\nRecord deleted succesfully\n");
+    }
+  }
+
