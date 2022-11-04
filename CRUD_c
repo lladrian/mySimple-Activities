@@ -220,6 +220,7 @@ void studentrecord(){
 
 void searchstudent(){
     struct student info;
+    struct student info1;
     FILE *fp;
     char s[100];
     int roll_no, found=0;
@@ -231,26 +232,27 @@ void searchstudent(){
     //sscanf(s, "%d", &roll_no);
     //fgets(s, sizeof(s), stdin);//reads the input
 
-    while(fread(&info,sizeof(struct student),1,fp)>0){
-        if(info.roll_no==roll_no){
+    while(fread(&info1,sizeof(struct student),1,fp)){
+        if(info1.roll_no==roll_no){
             found=1;
             printf("\n=======SEARCH STUDENTS RECORD=======\n");
-            printf("\nStudent ID      : %d",info.roll_no);
-            printf("\nStudent Name    : %s %s",info.first_name,info.last_name);
-            printf("\n Quiz 1         : %.2f",info.q1);
-            printf("\n Quiz 2         : %.2f",info.q2);
-            printf("\nQuiz 3          : %.2f",info.q3);
-            printf("\n Quiz 4         : %.2f",info.q4);
-            printf("\n Average        : %.2f",info.average);
+            printf("\nStudent ID      : %d",info1.roll_no);
+            printf("\nStudent Name    : %s %s",info1.first_name,info.last_name);
+            printf("\n Quiz 1         : %.2f",info1.q1);
+            printf("\n Quiz 2         : %.2f",info1.q2);
+            printf("\nQuiz 3          : %.2f",info1.q3);
+            printf("\n Quiz 4         : %.2f",info1.q4);
+            printf("\n Average        : %.2f",info1.average);
             printf("\n_____________________________________\n");
-
+        }
     }
+
     if(!found){
-       printf("\nRecord not found\n");
+        printf("\nRecord not found\n");
     }
     fclose(fp);
 }
-}
+
 
  void update(){
     struct student info;
