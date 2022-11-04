@@ -1,4 +1,4 @@
-#include<stdio.h>
+#include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
 #define back "true"
@@ -7,6 +7,8 @@ void addstudent();
 void studentrecord();
 void searchstudent();
 void delete();
+void update();
+ void delete_all();
 
   struct student {
     char first_name[20];
@@ -16,25 +18,28 @@ void delete();
     float average;
 };
 
-void main()
+int main()
 {
 
     char choice[20];
     char check;
     while(back=="true") {
 
-    printf("\n\n   FILE HANDLING USING C++       \n\n");
+    printf("\n\n   FILE HANDLING USING C       \n\n");
     printf("*****************************\n");
     printf("* SIMPLE MENU DRIVEN - CRUD *\n");
     printf("* [A] Add Record            *\n");
+    printf("* [E] Edit Record           *\n");
     printf("* [L] View All Record       *\n");
     printf("* [V] View Record           *\n");
     printf("* [D] Delete Record         *\n");
+    printf("* [Z] Delete All Record     *\n");
     printf("* [X] EXIT                  *\n");
     printf("*****************************\n\n");
 
     printf("Select: ");
     gets(choice);
+    //fgets(choice, sizeof(choice), stdin);//reads the input
 
     if(strlen(choice) > 1) {
         printf("\nCaught an ERROR!.\n\n");
@@ -57,9 +62,19 @@ void main()
          searchstudent();
          break;
     //Delete Record 100%
+    case 'e':
+    case 'E':
+         update();
+         break;
+    //Delete Record 100%
     case 'd':
     case 'D':
          delete();
+         break;
+         //Delete Record 100%
+    case 'z':
+    case 'Z':
+        delete_all();
          break;
    //EXIT FUNCTION 100%
    case 'x':
@@ -67,28 +82,29 @@ void main()
         printf("\nThank you, for used this software.\n\n");
         exit(0);
         break;
-    default :
-        printf("\ntEnter a valid number\n\n");
-         break;
     }
   }
-    getch();
 }
 
  void addstudent(){
      char another;
-     FILE *fp;
+     FILE *fp, *fp1;
      int n,i;
      struct student info;
+     struct student info1;
+
+     int roll_no=0,found=0;
      info.average = 0;
 
-   do{
+     fp=fopen("information.txt","a"); //use can give any file name. Give the name with extention or without extention.
+     fp1=fopen("information.txt","r");
+
     system("cls");
        printf("=======Add Students Info=======\n");
-       fp=fopen("information.txt","a"); //use can give any file name. Give the name with extention or without extention.
-          printf("\nEnter Roll-No       : ");
-          scanf("%d",&info.roll_no);
-          printf("Enter First Name     : ");
+          printf("\nEnter Student ID    : ");
+          scanf("%d",&roll_no);
+          info.roll_no = roll_no;
+          printf("Enter First Name    : ");
           scanf("%s",&info.first_name);
           printf("Enter Last Name     : ");
           scanf("%s",&info.last_name);
@@ -104,73 +120,29 @@ void main()
           printf("Quiz 4              : ");
           scanf("%f",&info.q4);
           info.average+=(float)info.q4;
-          info.average/=4; //get the average
-      if(fp==NULL){
-        fprintf(stderr,"can't open file");
-    }else{
-        printf("\nRecord stored successfuly\n");
-    }
-    fwrite(&info, sizeof(struct student), 1, fp);
-    fclose(fp);
+          info.average/=(float)4; //get the avage
 
-    printf("\nAdd Data?(Y/N) : ");
-    scanf("%s",&another);
-   }while(another=='y'||another=='Y');
-}
-
- void studentrecord(){
-    FILE *fp;
-    struct student info;
-    fp=fopen("information.txt","r");
-
-     printf("=======STUDENTS RECORD=======\n\n\n");
 
     if(fp==NULL){
-
-        fprintf(stderr,"can't open file\n");
-        exit(0);
-    }else{
-        printf("RECORDS :\n");
-        printf("___________\n\n");
+        fprintf(stderr,"Can't open file");
+        fprintf(stderr,"No DATA - Please try again!...");
     }
-        while(fread(&info,sizeof(struct student),1,fp)){
-            printf("\n Student ID     : %d",info.roll_no);
-            printf("\n Student Name   : %s %s",info.first_name,info.last_name);
-            printf("\n Quiz 1         : %.2f",info.q1);
-            printf("\n Quiz 2         : %.2f",info.q2);
-            printf("\n Quiz 3         : %.2f",info.q3);
-            printf("\n Quiz 4         : %.2f",info.q4);
-            printf("\n Average        : %.2f",info.average);
-            printf("\n________________________________\n");
-        }
-        fclose(fp);
-  }
-
-void searchstudent(){
-    struct student info;
-    FILE *fp;
-    int roll_no,found=0;
-
-    fp=fopen("information.txt","r");
-    printf("=======SEARCH STUDENTS RECORD=======\n\n\n");
-    printf("Enter the roll no : ");
-    scanf("%d",&roll_no);
-    while(fread(&info,sizeof(struct student),1,fp)>0){
-        if(info.roll_no==roll_no){
+    while(fread(&info1,sizeof(struct student),1,fp1)){
+        if(info1.roll_no == roll_no){
             found=1;
-            printf("\n\nStudent Name    : %s %s",info.first_name,info.last_name);
-            printf("\nStudent ID        : %d",info.roll_no);
-            printf("\n Quiz 1         : %.2f",info.q1);
-            printf("\n Quiz 2         : %.2f",info.q2);
-            printf("\nQuiz 3         : %.2f",info.q3);
-            printf("\n Quiz 4         : %.2f",info.q4);
-            printf("\n______________________________________\n");
-         }
+            printf("\nRecord failed to add\n");
+        }
     }
-    if(!found){
-       printf("\nRecord not found\n");
+
+    if(found==0) {
+        fwrite(&info,sizeof(struct student),1,fp);
+        printf("\nRecord added succesfully\n");
+
     }
+
     fclose(fp);
+    fclose(fp1);
+     //studentrecord();
 }
 
 
@@ -182,11 +154,14 @@ void searchstudent(){
     printf("=======DELETE STUDENTS RECORD=======\n\n\n");
     fp=fopen("information.txt","r");
     fp1=fopen("temp.txt","w");
-    printf("Enter the roll no : ");
+
+    printf("\nEnter Student ID    : ");
     scanf("%d",&roll_no);
+
     if(fp==NULL){
          fprintf(stderr,"can't open file\n");
-         exit(0);
+         fprintf(stderr,"No DATA - Please try again!...");
+         //exit(0);
     }
     while(fread(&info,sizeof(struct student),1,fp)){
         if(info.roll_no == roll_no){
@@ -207,4 +182,133 @@ void searchstudent(){
         printf("\nRecord deleted succesfully\n");
     }
   }
+ void delete_all(){
+    remove("information.txt");
+    remove("temp.txt");
+    rename("temp.txt","information.txt");
+    printf("\nAll record deleted succesfully\n");
+}
 
+void studentrecord(){
+    FILE *fp;
+    struct student info;
+    fp=fopen("information.txt","r");
+
+     printf("=======STUDENTS RECORD=======\n\n\n");
+
+    if(fp==NULL){
+        fprintf(stderr,"Can't open file\n");
+        fprintf(stderr,"No DATA - Please try again!...");
+        //exit(0);
+    }else{
+        printf("RECORDS :\n");
+        printf("___________\n\n");
+    }
+        while(fread(&info,sizeof(struct student),1,fp)){
+            printf("\n Student ID     : %d",info.roll_no);
+            printf("\n Student Name   : %s %s",info.first_name,info.last_name);
+            printf("\n Quiz 1         : %.2f",info.q1);
+            printf("\n Quiz 2         : %.2f",info.q2);
+            printf("\n Quiz 3         : %.2f",info.q3);
+            printf("\n Quiz 4         : %.2f",info.q4);
+            printf("\n Average        : %.2f",info.average);
+            printf("\n________________________________\n");
+        }
+        fclose(fp);
+  }
+
+
+void searchstudent(){
+    struct student info;
+    FILE *fp;
+    char s[100];
+    int roll_no, found=0;
+
+    fp=fopen("information.txt","r");
+    printf("=======SEARCH STUDENTS RECORD=======\n\n\n");
+    printf("\nEnter Student ID    : ");
+    scanf("%d",&roll_no);
+    //sscanf(s, "%d", &roll_no);
+    //fgets(s, sizeof(s), stdin);//reads the input
+
+    while(fread(&info,sizeof(struct student),1,fp)>0){
+        if(info.roll_no==roll_no){
+            found=1;
+            printf("\n=======SEARCH STUDENTS RECORD=======\n");
+            printf("\nStudent ID      : %d",info.roll_no);
+            printf("\nStudent Name    : %s %s",info.first_name,info.last_name);
+            printf("\n Quiz 1         : %.2f",info.q1);
+            printf("\n Quiz 2         : %.2f",info.q2);
+            printf("\nQuiz 3          : %.2f",info.q3);
+            printf("\n Quiz 4         : %.2f",info.q4);
+            printf("\n Average        : %.2f",info.average);
+            printf("\n_____________________________________\n");
+
+    }
+    if(!found){
+       printf("\nRecord not found\n");
+    }
+    fclose(fp);
+}
+}
+
+ void update(){
+    struct student info;
+    FILE *fp, *fp1;
+    int roll_no,found=0;
+    printf("=======UPDATE STUDENTS RECORD=======\n\n\n");
+    fp=fopen("information.txt","r");
+    fp1=fopen("temp.txt","w");
+
+    printf("\nEnter Student ID    : ");
+    scanf("%d",&roll_no);
+
+    if(fp==NULL){
+        fprintf(stderr,"Can't open file\n");
+        fprintf(stderr,"No DATA - Please try again!...");
+         //exit(0);
+    }
+    while(fread(&info,sizeof(struct student),1,fp)){
+        if(info.roll_no == roll_no){
+          info.average=0;
+          found=1;
+          printf("Enter First Name     : ");
+          scanf("%s",&info.first_name);
+          printf("Enter Last Name     : ");
+          scanf("%s",&info.last_name);
+
+          printf("Quiz 1              : ");
+          scanf("%f",&info.q1);
+          info.average+=info.q1;
+
+          printf("Quiz 2              : ");
+          scanf("%f",&info.q2);
+          info.average+=info.q2;
+
+          printf("Quiz 3              : ");
+          scanf("%f",&info.q3);
+          info.average+=info.q3;
+
+          printf("Quiz 4              : ");
+          scanf("%f",&info.q4);
+          info.average+=info.q4;
+
+          info.average/=4;
+          fwrite(&info,sizeof(struct student),1,fp1);
+        }else{
+          fwrite(&info,sizeof(struct student),1,fp1);
+        }
+    }
+     fclose(fp);
+     fclose(fp1);
+
+    if(!found){
+        printf("\nRecord not updated\n");
+    }
+    if(found){
+        remove("information.txt");
+        rename("temp.txt","information.txt");
+        printf("\nRecord updated succesfully\n");
+
+    }
+  }
