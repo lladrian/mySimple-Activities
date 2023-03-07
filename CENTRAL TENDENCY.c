@@ -3,15 +3,20 @@
      Author : Adrian C. Manatad
        Date : April 10, 2022
      Reason : for fun
-*/a
+*/
 int main() {
 
-    int len, sum, counter=0, total=0,key, i , j, mode[25], max=0, temp;
-    int data[50] = {90,87,88,82,79,78,93,94,86,84,
-                    89,84,78,97,94,92,79,88,92,80,
-                    87,87,88,86,85,98,81,86,86,84,
-                    91,89,92,82,83,96,80,84,78,83,
-                    98,83,95,94,81,85,85,87,91,94
+    int len, sum, step=0,sum2=0, counter=0, total=0,key, i , j, mode[25], max=0, temp;
+    int data[70] = {78,68,65,60,60,74,67,
+                    71,69,60,60,74,76,68,
+                    70,72,67,67,71,65,76,
+                    56,62,77,90,61,75,67,
+                    69,80,60,69,52,67,65,
+                    68,71,74,65,60,60,69,
+                    60,78,68,67,75,61,73,
+                    61,50,59,62,57,58,79,
+                    60,73,48,63,67,69,60,              
+                    58,63,72,55,64,77,51
                    };
     float mean, median;
 
@@ -20,8 +25,16 @@ int main() {
 
     printf("Unsorted Data:\n");
     for(i=0; i<len; i++) { //to display unsorted array
-        if(i % 10 == 0 && i!=0) printf("\n");
-         printf("%d ", data[i]);
+              
+        
+        sum2+=data[i];
+        step+=1;
+        printf("%d ", data[i]);
+        if(step==7) {      
+           printf("= %d\n",sum2);
+           sum2=0;
+           step=0;   
+        }
     }
 
     //Use this code to make it sorted
@@ -38,8 +51,15 @@ int main() {
     printf("\n\nSorted Data:\n");
     for(i=0; i<len; i++) { //to display the sorted array
        total+=data[i];
-       if(i % 10 == 0 && i!=0) printf("\n");
+        sum2+=data[i];
+        step+=1;
         printf("%d ", data[i]);
+        if(step==7) {      
+           printf("= %d\n",sum2);
+           sum2=0;
+           step=0;   
+        }
+              
     }
 
     mean = (float) total / len; // to find mean
